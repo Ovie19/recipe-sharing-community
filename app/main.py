@@ -1,12 +1,12 @@
 from fastapi import FastAPI
-from app.config.database import create_db_and_tables
-from app.models.user import User
-from app.models.recipe import Recipe
 from contextlib import asynccontextmanager
 
+from app.config.database import create_db_and_tables
+import app.models
+
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(recipe_app: FastAPI):
     create_db_and_tables()
     yield
 
-app = FastAPI(lifespan=lifespan)
+recipe_app = FastAPI(lifespan=lifespan)
