@@ -4,7 +4,7 @@ from uuid import UUID, uuid4
 from pydantic import BaseModel, Field
 from sqlmodel import SQLModel, Column, JSON, Field as SQLField
 
-from app.models.category import Category
+from .category import Category
 
 class RecipeCreate(BaseModel):
     name: str = Field(min_length=4, max_length=50)
