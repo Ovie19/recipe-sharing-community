@@ -1,6 +1,6 @@
 from app.exception import AuthenticationException
 from app.repositories import UserRepository
-from app.models import UserCreate, UserResponse, User
+from app.models import UserCreate, UserResponse, User, LoginRequest
 from app.security import PasswordHasher
 
 class AuthenticationService:
@@ -24,3 +24,13 @@ class AuthenticationService:
         user.password = self.password_hasher.hash(user.password)
         user = self.repository.save(user)
         return UserResponse.model_validate(user)
+
+    def login_user(self, payload: LoginRequest) -> UserResponse:
+        found_user = self.repository.find_by_username(payload.username)
+        if found_user is None:
+            raise AuthenticationException("Invalid username or password")
+
+        if not self.password_hasher.verify(payload.password, found_user.password):
+            raise AuthenticationException("Invalid username or password")
+
+        return UserResponse.model_validate(found_user)

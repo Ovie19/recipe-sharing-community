@@ -6,7 +6,7 @@ import pytest
 from app.exception import AuthenticationException
 from app.repositories import UserRepository
 from app.services import AuthenticationService
-from app.models import User, UserCreate, UserResponse
+from app.models import User, UserCreate, UserResponse, LoginRequest
 from app.security import PasswordHasher
 
 
@@ -84,3 +84,39 @@ class TestAuthenticationService:
         repository.exists_by_username.return_value = True
         with pytest.raises(AuthenticationException):
             service.create_user(user_request)
+
+    def test_login_user_with_invalid_username(self, repository, service):
+        login_request = LoginRequest(username="test-username", password="test-password")
+        repository.find_by_username.return_value = None
+        with pytest.raises(AuthenticationException):
+            service.login_user(login_request)
+
+    def test_login_user_password_does_not_match(self, repository, password_hasher, service):
+        login_request = LoginRequest(username="test-username", password="fake-password")
+        repository.find_by_username.return_value = User(
+            id=uuid4(),
+            username="test-username",
+            email="email@test-email.com",
+            password="hashed_password"
+        )
+        password_hasher.verify.return_value = False
+        with pytest.raises(AuthenticationException):
+            service.login_user(login_request)
+
+    def test_login_user_successful(self, repository, password_hasher, service):
+        user_id = uuid4()
+        login_request = LoginRequest(username="test-username", password="test-password")
+        repository.find_by_username.return_value = User(
+            id=user_id,
+            username="test-username",
+            email="email@test-email.com",
+            password="hashed_password"
+        )
+        password_hasher.verify.return_value = True
+
+        result = service.login_user(login_request)
+
+        assert result is not None
+        assert result.id == user_id
+        assert result.username == "test-username"
+        assert result.email == "email@test-email.com"
