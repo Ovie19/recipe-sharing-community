@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Black">
-    <option name="sdkName" value="uv (recipe_sharing_app)" />
+    <option name="sdkName" value="uv (recipe-sharing-community)" />
   </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="uv (recipe-sharing-community)" project-jdk-type="Python SDK" />
 </project>
