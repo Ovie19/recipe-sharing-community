@@ -1,9 +1,8 @@
 from typing import Optional
 from uuid import UUID
 
-from sqlmodel import Session
+from sqlmodel import Session, select
 from app.models import User
-
 
 class UserRepository:
     def __init__(self, session: Session):
@@ -16,4 +15,19 @@ class UserRepository:
         return user
 
     def find_by_id(self, user_id: UUID) -> Optional[User]:
-        return self.session.get(User, user_id)
+        statement = select(User).where(User.id == user_id)
+        return self.session.exec(statement).first()
+
+    def find_by_email(self, email: str) -> Optional[User]:
+        statement = select(User).where(User.email == email)
+        return self.session.exec(statement).first()
+
+    def exists_by_email(self, email):
+        return self.find_by_email(email) is not None
+
+    def find_by_username(self, username: str) -> Optional[User]:
+        statement = select(User).where(User.username == username)
+        return self.session.exec(statement).first()
+
+    def exists_by_username(self, username):
+        return self.find_by_username(username) is not None
