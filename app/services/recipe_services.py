@@ -12,8 +12,8 @@ class RecipeService:
         self.repository = RecipeRepository(session)
 
     def create_recipe(self, recipe_in: RecipeCreate, user_id: UUID) -> RecipeResponse:
-        db_recipe = Recipe.model_validate(recipe_in, update={"user_id": user_id})
-        created_recipe = self.repository.create(db_recipe)
+        recipe = Recipe.model_validate(recipe_in, update={"user_id": user_id})
+        created_recipe = self.repository.create(recipe)
         return RecipeResponse.model_validate(created_recipe)
 
     def get_recipe(self, recipe_id: UUID) -> Optional[RecipeResponse]:
@@ -22,7 +22,7 @@ class RecipeService:
             raise HTTPException(status_code=404, detail="Recipe not found")
         return RecipeResponse.model_validate(recipe)
 
-    def get_recipes(self, skip: int = 0, limit: int = 100) -> List[RecipeResponse]:
+    def view_recipes(self, skip: int = 0, limit: int = 100) -> List[RecipeResponse]:
         recipes = self.repository.get_all(skip=skip, limit=limit)
         return [RecipeResponse.model_validate(recipe) for recipe in recipes]
 

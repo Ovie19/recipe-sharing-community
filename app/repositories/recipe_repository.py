@@ -13,32 +13,32 @@ class RecipeRepository:
         self.session.refresh(recipe)
         return recipe
 
-    def get_by_id(self, recipe_id: UUID) -> Optional[Recipe]:
+    def get_recipe_by_id(self, recipe_id: UUID) -> Optional[Recipe]:
         return self.session.get(Recipe, recipe_id)
 
-    def get_all(self, skip: int = 0, limit: int = 100) -> List[Recipe]:
-        statement = select(Recipe).offset(skip).limit(limit)
+    def view_all_recipes(self) -> List[Recipe]:
+        statement = select(Recipe)
         results = self.session.exec(statement).all()
         return list(results)
 
-    def update(self, recipe_id: UUID, recipe_data: dict) -> Optional[Recipe]:
-        db_recipe = self.get_by_id(recipe_id)
-        if not db_recipe:
+    def update_recipe(self, recipe_id: UUID, recipe_data: dict) -> Optional[Recipe]:
+        recipe = self.get_recipe_by_id(recipe_id)
+        if not recipe:
             return None
         
         for key, value in recipe_data.items():
-            setattr(db_recipe, key, value)
+            setattr(recipe, key, value)
             
-        self.session.add(db_recipe)
+        self.session.add(recipe)
         self.session.commit()
-        self.session.refresh(db_recipe)
-        return db_recipe
+        self.session.refresh(recipe)
+        return recipe
 
     def delete(self, recipe_id: UUID) -> bool:
-        db_recipe = self.get_by_id(recipe_id)
-        if not db_recipe:
+        recipe = self.get_by_id(recipe_id)
+        if not recipe:
             return False
             
-        self.session.delete(db_recipe)
+        self.session.delete(recipe)
         self.session.commit()
         return True
