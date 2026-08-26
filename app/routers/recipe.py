@@ -28,7 +28,7 @@ def get_recipes(
     limit: int = 100,
     service: RecipeService = Depends(get_recipe_service)
 ):
-    return service.get_recipes(skip=skip, limit=limit)
+    return service.view_recipes(skip=skip, limit=limit)
 
 @router.get("/{recipe_id}", response_model=RecipeResponse)
 def get_recipe(

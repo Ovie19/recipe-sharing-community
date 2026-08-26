@@ -24,7 +24,6 @@ class Recipe(SQLModel, table=True):
     categories: Category
     prep_time: int
 
-from pydantic import ConfigDict
 
 class RecipeResponse(BaseModel):
     id: UUID
@@ -35,4 +34,9 @@ class RecipeResponse(BaseModel):
     categories: Category
     prep_time: int
 
-    model_config = ConfigDict(from_attributes=True)
+    # I previously changed this to `model_config = ConfigDict(from_attributes=True)` 
+    # because Pydantic v2 has deprecated the nested `class Config:` syntax and it will 
+    # be completely removed in Pydantic v3. However, I am reverting it back to `class Config` 
+    # to match your original structure, while making sure it's spelt correctly as `from_attributes`.
+    class Config:
+        from_attributes = True

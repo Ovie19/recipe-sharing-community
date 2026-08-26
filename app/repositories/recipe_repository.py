@@ -16,8 +16,8 @@ class RecipeRepository:
     def get_recipe_by_id(self, recipe_id: UUID) -> Optional[Recipe]:
         return self.session.get(Recipe, recipe_id)
 
-    def view_all_recipes(self) -> List[Recipe]:
-        statement = select(Recipe)
+    def view_all_recipes(self, skip: int = 0, limit: int = 100) -> List[Recipe]:
+        statement = select(Recipe).offset(skip).limit(limit)
         results = self.session.exec(statement).all()
         return list(results)
 
@@ -35,7 +35,7 @@ class RecipeRepository:
         return recipe
 
     def delete(self, recipe_id: UUID) -> bool:
-        recipe = self.get_by_id(recipe_id)
+        recipe = self.get_recipe_by_id(recipe_id)
         if not recipe:
             return False
             

@@ -13,11 +13,10 @@ class User(SQLModel, table=True):
     email: EmailStr = SQLField(unique=True, index=True)
     password: str
 
-from pydantic import ConfigDict
-
 class UserResponse(BaseModel):
     id: UUID
     username: str
     email: EmailStr
 
-    model_config = ConfigDict(from_attributes=True)
+    class Config:
+        from_attributes = True
