@@ -3,4 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="uv (recipe_sharing_app)" />
   </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="uv (recipe-sharing-community)" project-jdk-type="Python SDK" />
 </project>
