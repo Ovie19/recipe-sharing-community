@@ -34,4 +34,4 @@ class RecipeResponse(BaseModel):
     prep_time: int
 
     class Config:
-        from_attribute = True
+        from_attributes = True
