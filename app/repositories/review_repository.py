@@ -37,8 +37,8 @@ class ReviewRepository:
 
         return review
 
-    def find_by_user_id(self, user_id: UUID) -> List[Review]:
-        statement = select(Review).where(Review.user_id == str(user_id))
+    def find_all(self) -> List[Review]:
+        statement = select(Review)
         return self.session.exec(statement).all()
 
     def delete(self, review_id: UUID) -> None:

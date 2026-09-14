@@ -21,7 +21,7 @@ class ReviewService:
         found_user = self.user_repo.find_by_id(request.user_id)
         if found_user is None:
             raise ValueError("User does not exist")
-        found_recipe = self.recipe_repo.find_by_id(request.recipe_id)
+        found_recipe = self.recipe_repo.get_recipe_by_id(request.recipe_id)
         if found_recipe is None:
             raise ValueError("Recipe does not exist")
 
