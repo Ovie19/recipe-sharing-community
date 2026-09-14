@@ -3,11 +3,13 @@ from uuid import UUID, uuid4
 
 
 from pydantic import BaseModel, Field
+from sqlmodel import SQLModel, Field as SQLField
+
 
 class ReviewCreate(BaseModel):
     user_id: UUID
     recipe_id: UUID
-    comment: str
+    comment: str = Field(min_length=3, max_length=500)
 
 class ReviewResponse(BaseModel):
     id: UUID
@@ -16,7 +18,7 @@ class ReviewResponse(BaseModel):
     comment: str
 
 class ReviewUpdateRequest(BaseModel):
-    comment: str
+    comment: str = Field(min_length=3, max_length=500)
 
 class ReviewUpdateResponse(BaseModel):
     id: UUID
@@ -29,9 +31,9 @@ class DeleteReviewRequest(BaseModel):
 class DeleteReviewResponse(BaseModel):
     status: str
 
-class Review(BaseModel):
-    id: UUID = Field(default_factory=uuid4)
-    comment: str
-    user_id: UUID
-    recipe_id: UUID
+class Review(SQLModel, table=True):
+    id: UUID = SQLField(default_factory=uuid4, primary_key=True)
+    comment: str = SQLField(index=True, max_length=500)
+    user_id: UUID = SQLField(foreign_key="user.id", index=True)
+    recipe_id: UUID = SQLField(foreign_key="recipe.id", index=True)
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
