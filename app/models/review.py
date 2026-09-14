@@ -15,7 +15,7 @@ class ReviewResponse(BaseModel):
     recipe_id: UUID
     comment: str
 
-class ReviewUpdate(BaseModel):
+class ReviewUpdateRequest(BaseModel):
     comment: str
 
 class ReviewUpdateResponse(BaseModel):

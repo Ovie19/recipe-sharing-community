@@ -1,8 +1,8 @@
 import uuid
 from typing import List
 
-from app.models.review import ReviewResponse, Review, ReviewUpdate, ReviewUpdateResponse, DeleteReviewRequest, \
-    DeleteReviewResponse
+from app.models.review import ReviewResponse, Review, ReviewUpdateResponse, DeleteReviewRequest, \
+    DeleteReviewResponse, ReviewUpdateRequest
 from app.models.review import ReviewCreate
 from app.repositories.review_repository import ReviewRepository
 from app.repositories.user import UserRepository
@@ -36,7 +36,7 @@ class ReviewService:
                                          comment=saved_review.comment,)
         return review_response
 
-    def update_review(self, review_id, update_request:ReviewUpdate)->ReviewUpdateResponse:
+    def update_review(self, review_id, update_request:ReviewUpdateRequest)->ReviewUpdateResponse:
         found_review = self.review_repository.find_by_id(review_id)
         if found_review is None:
             raise ValueError(f"Review id {review_id} not found")
