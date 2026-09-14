@@ -18,7 +18,7 @@ class ReviewRepository:
         return review
 
     def find_by_id(self, review_id: UUID) -> Optional[Review]:
-        statement = select(Review).where(Review.id == str(review_id))
+        statement = select(Review).where(Review.id == review_id)
         return self.session.exec(statement).first()
 
     def update(self, review_id: UUID, data: dict) -> Optional[Review]:

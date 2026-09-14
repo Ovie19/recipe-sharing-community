@@ -44,7 +44,7 @@ class ReviewService:
         update = self.review_repository.update(review_id, update_data)
         if update is None:
             raise ValueError("failed to update")
-        update_response = ReviewUpdateResponse(id=update.recipe_id,comment=update.comment)
+        update_response = ReviewUpdateResponse(id=update.id,comment=update.comment)
         return update_response
 
     def delete_review(self,review_id,request:DeleteReviewRequest)->DeleteReviewResponse:

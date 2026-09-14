@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from app.routers.authentication_router import router as authentication_router
 from app.routers.recipe_router import router as recipe_router
+from app.routers.review_router import router as review_router
 from contextlib import asynccontextmanager
 
 from app.config.database import create_db_and_tables
@@ -15,3 +16,4 @@ recipe_app = FastAPI(lifespan=lifespan)
 
 recipe_app.include_router(authentication_router)
 recipe_app.include_router(recipe_router)
+recipe_app.include_router(review_router)
