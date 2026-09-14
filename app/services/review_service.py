@@ -1,16 +1,16 @@
 import uuid
 from typing import List
 
-from app.repositories.in_memory_review_repository import InMemoryReviewRepository
 from app.models.review import ReviewResponse, Review, ReviewUpdate, ReviewUpdateResponse, DeleteReviewRequest, \
     DeleteReviewResponse
 from app.models.review import ReviewCreate
+from app.repositories.review_repository import ReviewRepository
 from app.repositories.user import UserRepository
 from app.repositories.recipe_repository import RecipeRepository
 
 
 class ReviewService:
-    def __init__(self, review_repository: InMemoryReviewRepository, user_repository: UserRepository, recipe_repository: RecipeRepository):
+    def __init__(self, review_repository: ReviewRepository, user_repository: UserRepository, recipe_repository: RecipeRepository):
         self.review_repository = review_repository
         self.user_repo = user_repository
         self.recipe_repo = recipe_repository

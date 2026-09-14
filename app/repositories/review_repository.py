@@ -6,7 +6,7 @@ from sqlmodel import Session, select
 from app.models.review import Review
 
 
-class MySqlReviewRepository:
+class ReviewRepository:
 
     def __init__(self, session: Session):
         self.session = session

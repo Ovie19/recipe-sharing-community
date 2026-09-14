@@ -17,9 +17,9 @@ def get_auth_service(session:Session = Depends(get_session))->AuthenticationServ
     authentication_service = AuthenticationService(repository,password_hash)
     return authentication_service
 
-@router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
-def create_user(payload: UserCreate, auth_service: AuthenticationService = Depends(get_auth_service)):
-    return auth_service.create_user(payload)
+    @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+    def create_user(payload: UserCreate, auth_service: AuthenticationService = Depends(get_auth_service)):
+        return auth_service.create_user(payload)
 
 @router.post("/login", response_model=UserResponse, status_code=status.HTTP_200_OK)
 def login_user(payload: LoginRequest,auth_service: AuthenticationService = Depends(get_auth_service)):
